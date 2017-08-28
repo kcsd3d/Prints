@@ -1,10 +1,15 @@
 X=+0; Y=+1; Z=+2;
+
 /* [General] */
 // temperature of the first block
 initial_temperature = 275;
+// final temperature
+final_temperature = 230;
 // change in temperature between successively printed blocks
 temperature_step = -5;
-number_of_blocks = 10;
+// number of blocks - used if non-zero, overrides final_temperature
+number_of_blocks = 0;
+
 /* [Detail Geometry] */
 // dimensions of the base plate
 base = [46, 14, 1.5];
@@ -38,6 +43,8 @@ text_depth = 1;
 text_font = "Helvetica:style=Bold";
 // text ascent relative to the width of the tower block
 text_ascent = 0.4;
+
+/* Hidden */
 
 module Tower(x, overhang, gap, temp)
     translate([x,0,0])
@@ -77,12 +84,18 @@ module Tower(x, overhang, gap, temp)
 
 }
 
-z1 = base[Z]/2;
-translate([0,0,z1]) cube(base, true);
-z2 = z1 + base[Z]/2;
-translate([0,0,z2]) {
-    Tower(-tower_x_distance/2, overhang_l_x, bridge_l_gap, "275");
-    Tower(tower_x_distance/2, overhang_r_x, bridge_r_gap);
+z1 = 0;
+translate([0,0,z1+base[Z]/2]) cube(base, true);
+z2 = z1 + base[Z];
+
+count = number_of_blocks>0 ? number_of_blocks :
+    1+(final_temperature - initial_temperature)/temperature_step;
+
+for (i = [0 : count-1]) {
+    z3 = z2 + i*(pedestal[Z] + block[Z]);
+    temp = initial_temperature + i*temperature_step;
+    translate([0,0,z3]) {
+        Tower(-tower_x_distance/2, overhang_l_x, bridge_l_gap, temp);
+        Tower(tower_x_distance/2, overhang_r_x, bridge_r_gap);
+    }
 }
-
-
