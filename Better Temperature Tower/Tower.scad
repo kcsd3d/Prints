@@ -34,16 +34,30 @@ bridge_z_top = -0.394;
 bridge_z = 1.5;
 // embossing depth of the text
 text_depth = 1;
+// font used for the text
+text_font = "Helvetica:style=Bold";
+// text ascent relative to the width of the tower block
+text_ascent = 0.4;
 
-module Tower(x, overhang, gap)
+module Tower(x, overhang, gap, temp)
     translate([x,0,0])
     scale([x<=0 ? 1 : -1, 1, 1])
 {
-    z1 = pedestal[Z]/2;
-    translate([0,0,z1]) cube(pedestal, true);
-    z2 = z1 + pedestal[Z]/2 + block[Z]/2;
-    translate([0,0,z2]) cube(block, true);
-    z3 = z2 + block[Z]/2;
+    z1 = 0;
+    translate([0,0,z1 + pedestal[Z]/2]) cube(pedestal, true);
+    z2 = z1 + pedestal[Z];
+    temp = temp ? str(temp) : "";
+    difference() {
+        translate([0,0,z2 + block[Z]/2]) cube(block, true);
+        translate([0, -block[Y]/2+text_depth-0.001, z2 + block[Z]/2])
+        rotate([90,0,0])
+        linear_extrude(text_depth)   
+        text(temp, size = block[X] * text_ascent, 
+             valign = "center", halign = "center",
+             font = text_font);
+    }
+    
+    z3 = z2 + block[Z];
 
     overhang_pts = [[0,0],[0,-overhang_z],[overhang,0]];
 
@@ -59,7 +73,7 @@ module Tower(x, overhang, gap)
         translate([0,0,pedestal_z])
             cube([abs(x)-block[X]/2-gap, bridge_y, bridge_z]);
     }
-    echo(abs(x)-block[X]/2-gap);
+
 
 }
 
@@ -67,7 +81,7 @@ z1 = base[Z]/2;
 translate([0,0,z1]) cube(base, true);
 z2 = z1 + base[Z]/2;
 translate([0,0,z2]) {
-    Tower(-tower_x_distance/2, overhang_l_x, bridge_l_gap);
+    Tower(-tower_x_distance/2, overhang_l_x, bridge_l_gap, "275");
     Tower(tower_x_distance/2, overhang_r_x, bridge_r_gap);
 }
 
