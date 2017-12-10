@@ -1,0 +1,212 @@
+; K-Factor Test
+;
+; Created: Sat Dec 09 2017 16:44:21 GMT-0500 (Eastern Standard Time)
+; Settings:
+; Filament Diameter = 1.75
+; Nozzle Diameter = 0.4
+; Nozzle Temperature = 230
+; Nozzle / Line Ratio = 1.2
+; Bed Temperature = 80
+; Slow Printing Speed = 1200
+; Fast Printing Speed = 4200
+; Movement Speed = 7200
+; Use UBL = false
+; Retraction Distance = 1
+; Bed Size X = 200
+; Bed Size Y = 200
+; Layer Height = 0.2
+; Extrusion Multiplier = 1
+; Starting Value K-Factor = 0
+; Ending value K-Factor = 100
+; K-Factor Stepping = 5
+;
+G28 ; home all axes
+M190 S80 ; set and wait for bed temp
+M104 S230 ; set nozzle temp and continue
+M109 S230 ; block waiting for nozzle temp
+G21 ; set units to millimetres
+M204 S500 ; lower acceleration to 500mm/s2 during the test
+G90 ; use absolute coordinates
+M83 ; use relative distances for extrusion
+;
+; go to layer height and prime nozzle on a line to the left
+;
+G1 X40 Y37.5 F7200
+G1 Z0.2 F1200
+G1 X40 Y137.5 E10 F1200 ; extrude some to start clean
+G1 E-1
+;
+; start the test (all values are relative coordinates)
+;
+G1 X60 Y37.5 F7200 ; move to pattern start
+G91 ; use relative coordinates
+M900 K0 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K5 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K10 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K15 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K20 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K25 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K30 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K35 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K40 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K45 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K50 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K55 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K60 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K65 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K70 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K75 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K80 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K85 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K90 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K95 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+M900 K100 ; set K-factor
+G1 E1
+G1 X20 Y0 E0.79824 F1200
+G1 X40 Y0 E1.59649 F4200
+G1 X20 Y0 E0.79824 F1200
+G1 E-1
+G1 X-80 Y5 F7200
+;
+; mark the test area for reference
+;
+G1 X20 Y0 F7200
+G1 E1
+G1 X0 Y20 E0.79824 F1200
+G1 E-1
+G1 X40 Y-20 F7200
+G1 E1
+G1 X0 Y20 E0.79824 F1200
+G1 E-1
+;
+; finish
+;
+G4 ; wait
+M104 S0 ; turn off hotend
+M140 S0 ; turn off bed
+G90 ; use absolute coordinates
+G1 Z30 Y200 F7200 ; move away from the print
+M84 ; disable motors
+M502 ; resets parameters from ROM (for those who do not have an EEPROM)
+M501 ; resets parameters from EEPROM (preferably)
+;
