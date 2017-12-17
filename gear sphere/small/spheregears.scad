@@ -2,21 +2,17 @@
 
 use <MCAD/involute_gears.scad>
 
-//gear1();
-//gear2();
-//gear3();
-//gear4();
-//gear5();
-//gear6();
-//gear7();
-//gear8();
+//gear(0);
 //rotate(a=[0,theta-90,0])center();
 //twogears();// render sub-assembly
 eightgears();// render full assembly
+//z_center_gear(6);
 //%baseshape();// render original shape (transparent, OpenCSG only)
 
-cs=50;// cube size (side length)
-rf1=2*cs;// distance from center of cube to cut corner faces
+// --------------
+
+sd=50*1.4; // sphere diameter
+rf1=2*sd/1.4;// distance from center of cube to cut corner faces
 cp=1/10;// percentage of rf1 for the center block
 td=3;// tapping diameter
 cd=4;// clearance hole diameter
@@ -28,8 +24,10 @@ $fs=td/6;// adjust number of faces in holes
 n1=18;// number of teeth on gear1
 n2=9;// number of teeth on gear2
 
+colors=repeat(2, [[0.5,0.5,0.5], [1,0,0], [0,1,0], [0,0,1]]);
+
 module baseshape() {
-	translate([6, 0, -4]) sphere(cs / 2 * 1.4, center=true);
+	translate([6, 0, -4]) sphere(sd / 2, center=true);
 }
 
 // -------------- Don't edit below here unless you know what you're doing.
@@ -52,22 +50,43 @@ function gear_opt(r2, i=0) =
         [r1,r2,i] :
         gear_opt(r2, i+1);
 
+rots=[[0,90-theta,90], [0,90-theta,0],
+      [0,90+theta,0], [0,90+theta,90],
+      [0,90+theta,180], [0,90+theta,-90],
+      [0,90-theta,-90], [0,90-theta,180]];
+
+gear_animation=[for(i=[0:7]) [0, 0, i%2 ? -720*$t : 360*$t]];
+
+function repeat(n, list) = [for(i=[0:len(list)*n-1]) list[i/n]];
+
+module select(i) { children(i); }
+
+module derotate(a)
+    rotate(a=[-a[0],0,0])
+    rotate(a=[0,-a[1],0])
+    rotate(a=[0,0,-a[2]]) children();
+
+module z_center_gear(i) {
+    derotate(a=rots[i]) center();
+    gear(i);
+}
+
 module twogears(){
 	center();
-	rotate(a=[0,90-theta,0])gear2();
-	rotate(a=[0,90-theta,90])gear1();
+	rotate(a=rots[1])gear(1);
+	rotate(a=rots[0])gear(0);
 }
 
 module eightgears() rotate([0, 0, 45]) {
 	center();
-	color([0.5, 0.5, 0.5]) rotate(a=[0,90-theta,90]) rotate([0, 0, 360 * $t]) gear1();
-	color([0.5, 0.5, 0.5]) rotate(a=[0,90-theta,0]) rotate([0, 0, -720 * $t]) gear2();
-	color([1, 0, 0]) rotate(a=[0,90+theta,0]) rotate([0, 0, 360 * $t])gear3();
-	color([1, 0, 0]) rotate(a=[0,90+theta,90]) rotate([0, 0, -720 * $t]) gear4();
-	color([0, 1, 0]) rotate(a=[0,90+theta,180]) rotate([0, 0, 360 * $t])gear5();
-	color([0, 1, 0]) rotate(a=[0,90+theta,-90]) rotate([0, 0, -720 * $t]) gear6();
-	color([0, 0, 1]) rotate(a=[0,90-theta,-90]) rotate([0, 0, 360 * $t])gear7();
-	color([0, 0, 1]) rotate(a=[0,90-theta,180]) rotate([0, 0, -720 * $t]) gear8();
+    for (i=[0:7])
+        color(colors[i]) rotate(a=rots[i])
+        rotate(gear_animation[i]) gear(i);
+}
+
+module gear(n) select(n) {
+    gear1(); gear2(); gear3(); gear4();
+    gear5(); gear6(); gear7(); gear8();
 }
 
 module gear1() render() biggear() rotate([0, 0, 180]) baseshape();
@@ -81,7 +100,7 @@ module gear8() render() smallgear() rotate([0, 0, 90]) baseshape();
 
 
 module center(){
-intersection(){
+render() intersection(){
 	rotate(a=[-90-theta,0,0])box();
 	rotate(a=[-90-theta,0,180])box();
 	rotate(a=[90-theta,0,90])box();
