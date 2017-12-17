@@ -17,7 +17,7 @@ cp=1/10;// percentage of rf1 for the center block
 td=3;// tapping diameter
 cd=4;// clearance hole diameter
 hd=7;// screw head clearance diameter
-Ls=20;// length of screw
+Ls=19;// length of screw
 ps=10;// penetration of screw into center block
 $fs=td/6;// adjust number of faces in holes
 
