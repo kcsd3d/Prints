@@ -27,21 +27,30 @@ $fs=td/6;// adjust number of faces in holes
 
 n1=18;// number of teeth on gear1
 n2=9;// number of teeth on gear2
-// Run gearopt.m with inputs of n1 and n2 above, copy outputs r1 and r2 below.
-r1=0.7493;
-r2=0.3746;
 
 module baseshape() {
 	translate([6, 0, -4]) sphere(cs / 2 * 1.4, center=true);
 }
 
 // -------------- Don't edit below here unless you know what you're doing.
+r1=gear_opt()[0];
+r2=gear_opt()[1];
 dc=rf1/sqrt(1-pow(r1,2));
 theta=asin(1/sqrt(3));
 pitch=360*r1*dc/n1;
 rf2=sqrt(pow(dc,2)-pow(r2*dc,2));
 phi1=90/n1 * 0;
 phi2=90/n2 * 0 + 60;
+
+function gear_opt(r2, i=0) =
+    let(dc = 1)
+    let(gamma = 2*atan(1/sqrt(2)))
+    let(r2 = i==0 ? dc/sqrt(2) : r2)
+    let(r1 = dc*sin(gamma-asin(r2/dc)))
+    let(r2 = n2/n1*r1)
+    i==1000 || abs(gamma-asin(r2/dc)-asin(r1/dc))<.00001 ?
+        [r1,r2,i] :
+        gear_opt(r2, i+1);
 
 module twogears(){
 	center();
