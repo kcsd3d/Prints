@@ -1,7 +1,7 @@
 include <MCAD/units.scad>
 
 $fa = 0.5;
-D = 76.0*mm;
+D = 77.5*mm;
 
 h_d1 = 10*mm;
 h_d2 = 15*mm;
