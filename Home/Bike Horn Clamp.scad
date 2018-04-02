@@ -4,23 +4,25 @@ $fa = 360/4/45;
 $fs = 0.5*mm;
 
 // horn diameter
-D_h = 16.4*mm;
+D_h = 17.0*mm;
 // horn ring thickness
-t_h = 2.6*mm;
+t_h = 4*mm;
 // horn ring length
 l_h = 18.9*mm;
+// horn ring cone rim width
+r_h = 1*mm;
 // horn setscrew clearance hole depth
 c_h = 3.5*mm;
 // horn setscrew clearance hole diameter
-d1_h = 4.9*mm;
+d1_h = 5.1*mm;
 // horn setscrew threadable hole diameter
-d0_h = 4.1*mm;
+d0_h = 4.5*mm;
 
 // horn-to-handlebar inner surface tangential distance
 t_hH = 10*mm;
 
 // handlebar diameter
-D_H = 22.5*mm;
+D_H = 23.0*mm;
 // handlebar ring thickness
 t_H = 2.5*mm;
 // handlebar clamp width (axial)
@@ -28,7 +30,7 @@ wc_H = 14*mm;
 // handlebar clamp depth (radial)
 dc_H = 23*mm;
 // handlebar clamp length (tangential)
-lc_H = 18*mm; 
+lc_H = 20*mm; 
 // handlebar clamp screw-to-inside offset (tangential)
 rc_H = 5.5*mm;
 // handlebar clamp gap
@@ -38,11 +40,11 @@ tc_H = 5*mm;
 // handlebar screw head socket depth
 ls_H = 1.5*mm;
 // handlebar screw head socket diameter
-d2_H = 7*mm;
+d2_H = 8*mm;
 // handlebar screw clearance hole diameter
-d1_H = 4.2*mm;
+d1_H = 4.5*mm;
 // handlebar screw threadable hole diameter
-d0_H = 3.0*mm;
+d0_H = 3.5*mm;
 
 // The design is centered around the handlebar. Handlebar is Z-up.
 // Handlebar-horn offset is along X.
@@ -69,7 +71,7 @@ eps = 1e-3*mm;
 // maximum angle due to printer capability (0=vertical)
 s_max1 = 55;
 // minimum angle to meet the outer surface of the handlebar
-s_max_a = rc_H-t_H;
+s_max_a = rc_H-1.4*t_H; // sqrt(2)? seems like a mistake
 s_max_b = D_H/2;
 s_max_c2 = s_max_a*s_max_a + s_max_b*s_max_b;
 s_max_c = sqrt(s_max_c2);
@@ -119,7 +121,7 @@ difference() {
         // horn hole
         cylinder(d=D_h, h=l_h+eps, center=true);
         // horn clearance_cone
-        translate([0,0,-l_h/2-eps]) cylinder(d1=Do_h, d2=0, h=Do_h/2);
+        translate([0,0,-l_h/2-r_h-eps]) cylinder(d1=Do_h, d2=0, h=Do_h/2);
         rotate([0,-90,0]) {
             // horn setscrew hole
             cylinder(d=d0_h, h=D_h/2 + t_hH + D_H/2);
